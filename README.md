@@ -24,6 +24,10 @@
 - 解析了 HTTP POST 请求
 - 比较本项目与其他 Web 服务器的并发模型特点，如：nginx
 
+## 测试
+
 ## 项目来源
 
-
+- [陈硕](https://github.com/chenshuo/muduo)
+- [林亚](https://github.com/linyacool/WebServer)
+- [陈帅豪](https://github.com/chenshuaihao/NetServer)
