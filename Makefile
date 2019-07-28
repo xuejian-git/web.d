@@ -20,6 +20,3 @@ $(BIN)/$(TARGET) : $(OBJECT) $(PROJECT)/src/Main.o
 clean :
 	find . -name '*.o' | xargs rm -f
 	find . -name $(TARGET) | xargs rm -f
-
-debug :
-	@echo $(SRC)
