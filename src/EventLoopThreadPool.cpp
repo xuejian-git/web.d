@@ -30,6 +30,7 @@ void EventLoopThreadPool::start() {
     }
 }
 
+// LC 策略
 EventLoop *EventLoopThreadPool::getNextLoop() {
     baseLoop_->assertInLoopThread();
     assert(started_);

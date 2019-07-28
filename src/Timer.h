@@ -3,7 +3,8 @@
  *   Email           : 13669186256@163.com
  *   Last modified   : 2019-07-28 13:16
  *   Filename        : Timer.h
- *   Description     : 
+ *   Description     : 基于小根堆的定时器实现
+ *   定时剔除不活跃连接，和死连接
  * *******************************************************/
 
 #ifndef INCLUDE_TIMER_H

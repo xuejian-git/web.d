@@ -25,14 +25,25 @@ public:
     }
     void start();
 
+    // 获取下一个 loop
     EventLoop *getNextLoop();
 
 private:
     EventLoop* baseLoop_;
+
+    // 线程状态
     bool started_;
+
+    // 线程数量
     int numThreads_;
+
+    // 下一个 thread
     int next_;
+
+    // 线程列表
     std::vector<std::shared_ptr<EventLoopThread>> threads_;
+
+    // 主 loop，优先级
     std::vector<EventLoop*> loops_;
 }; // EventLoopThreadPool
 

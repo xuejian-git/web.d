@@ -3,7 +3,9 @@
  *   Email           : 13669186256@163.com
  *   Last modified   : 2019-07-28 13:24
  *   Filename        : EventLoop.cpp
- *   Description     : 
+ *   Description     : IO 复用流程抽象
+ *   提供添加、删除、修改 epoll 事件接口
+ *   提供 loop 唤醒后的读、写、异常、错误事件回调
  * *******************************************************/
 
 #include <sys/eventfd.h>
@@ -16,6 +18,8 @@
 
 __thread EventLoop* t_loopInThisThread = 0;
 
+
+// 跨线程唤醒 fd
 int createEventfd() {
     int evtfd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
     if (evtfd < 0) {

@@ -3,7 +3,7 @@
  *   Email           : 13669186256@163.com
  *   Last modified   : 2019-07-28 13:15
  *   Filename        : ThreadPool.h
- *   Description     : 
+ *   Description     : 线程池实现，表示工作线程，执行通用任务
  * *******************************************************/
 
 #ifndef INCLUDE_THREADPOOL_H
@@ -39,12 +39,21 @@ struct ThreadPoolTask {
 
 class ThreadPool {
 private:
+    // 任务队列互斥量
     static pthread_mutex_t lock;
+
+    // 任务队列同步的条件变量
     static pthread_cond_t notify;
 
     static std::vector<pthread_t> threads;
+
+    // 任务队列
     static std::vector<ThreadPoolTask> queue;
+
+    // 线程数量
     static int thread_count;
+
+    // 任务队列大小
     static int queue_size;
     static int head;
     // tail 指向尾节点的下一节点

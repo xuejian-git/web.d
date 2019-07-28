@@ -16,6 +16,7 @@
 #include <sys/epoll.h>
 #include <functional>
 #include <unistd.h>
+#include <vector>
 
 #include "Timer.h"
 
@@ -115,6 +116,8 @@ private:
     int fd_;
     std::string inBuffer_;
     std::string outBuffer_;
+    // std::vector<char> inBuffer_;
+    // std::vector<char> outBuffer_;
     bool error_;
     ConnectionState connectionState_;
 
