@@ -8,6 +8,8 @@
 
 #include <getopt.h>
 #include <string>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "EventLoop.h"
 #include "Server.h"
@@ -15,9 +17,10 @@
 
 int main(int argc, char *argv[])
 {
+    mkdir("log", 0775);
     int threadNum = 4;
     int port = 8000;
-    std::string logPath = "./WebServer.log";
+    std::string logPath = "./log/webd.log";
 
     // parse args
     int opt;
@@ -52,7 +55,7 @@ int main(int argc, char *argv[])
         LOG << "_PTHREADS is not defined !";
     #endif
     EventLoop mainLoop;
-    // daemon(0, 0);
+    daemon(1, 0);
     Server myHTTPServer(&mainLoop, threadNum, port);
     myHTTPServer.start();
     mainLoop.loop();
