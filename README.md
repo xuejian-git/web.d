@@ -22,6 +22,7 @@
 - 实现了基于时间轮的定时器，定时关闭超时请求以及剔除不活跃连接
 - 实现了线程安全的高性能内存池 MemoryPool，减少频繁开辟和释放产生的内存碎片
 - 解析了 HTTP POST 请求
+- 实现了 TCP 接收发送缓冲区(环形缓冲区)
 - 比较本项目与其他 Web 服务器的并发模型特点，如：nginx
 - 使用 shell 脚本编写了 webd 服务的启动、关闭及重启(控制服务行为)
 - 该服务以 dameon 进程运行
@@ -31,5 +32,5 @@
 ## 项目来源
 
 - [陈硕](https://github.com/chenshuo/muduo)
-- [林亚](https://github.com/linyacool/WebServer)
-- [陈帅豪](https://github.com/chenshuaihao/NetServer)
+- 林亚
+- 陈帅豪
