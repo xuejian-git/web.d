@@ -1,5 +1,7 @@
 # WebServer (学习项目)
 
+[![](https://img.shields.io/badge/build-pass-brightgreen)](https://github.com/Apriluestc/web.d/edit/master/README.md)
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 本项目为 C++11 编写的 Web 服务器，解析了 get、head 请求，可处理静态资源，支
 持HTTP长连接，支持管线化请求，并实现了异步日志，记录服务器运行状态
