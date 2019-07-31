@@ -3,7 +3,7 @@
 *.dll
 *.so
 *.dylib
-
+*.sh
 *.swp
 
 # Test binary, build with `go test -c`
