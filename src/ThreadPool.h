@@ -45,9 +45,11 @@ private:
     // 任务队列同步的条件变量
     static pthread_cond_t notify;
 
+    // 线程组
     static std::vector<pthread_t> threads;
 
     // 任务队列
+    // 用条件变量同步任务队列
     static std::vector<ThreadPoolTask> queue;
 
     // 线程数量

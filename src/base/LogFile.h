@@ -4,6 +4,8 @@
  *   Last modified   : 2019-07-28 13:33
  *   Filename        : LogFile.h
  *   Description     : 
+ *   LogFile 进一步封装了 FileUtil，并设置了循环次数，决定
+ *   flush 间隔
  * *******************************************************/
 
 #ifndef INCLUDE_LOGFILE_H
@@ -23,6 +25,7 @@ public:
     LogFile(const std::string& basename, int flushEveryN = 1024);
     ~LogFile();
 
+    // 写文件 append
     void append(const char* logline, int len);
     void flush();
     bool rollFile();

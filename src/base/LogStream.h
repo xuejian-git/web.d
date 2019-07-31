@@ -4,6 +4,7 @@
  *   Last modified   : 2019-07-28 13:31
  *   Filename        : LogStream.h
  *   Description     : 
+ *   LogStream 主要用来格式化输出，重载 << 流运算符
  * *******************************************************/
 
 #ifndef INCLUDE_LOGSTREAM_H

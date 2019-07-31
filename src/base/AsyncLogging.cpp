@@ -51,11 +51,17 @@ void AsyncLogging::append(const char* logline, int len) {
 void AsyncLogging::threadFunc() {
     assert(running_ == true);
     latch_.countDown();
+
+    // 直接进行 IO 的日志文件
     LogFile output(basename_);
+
+    // 后端准备两个 Buffer，预防临界区(超时、currentBuffer 写满)
     BufferPtr newBuffer1(new Buffer);
     BufferPtr newBuffer2(new Buffer);
     newBuffer1->bzero();
     newBuffer2->bzero();
+
+    // 用来和前端线程交换 Buffer
     BufferVector buffersToWrite;
     buffersToWrite.reserve(16);
     while (running_) {
@@ -68,6 +74,14 @@ void AsyncLogging::threadFunc() {
             if (buffers_.empty()) {
                 cond_.waitForSeconds(flushInterval_);
             }
+
+            /*
+             * 无论 cond 是因何种原因醒来，都要将 currentBuffer 放到 buffers 中。如果是因为时间
+             * 到而醒，那么就算 currentBuffer 还没写满，此时也要将它写入 LogFile 中。如果前台
+             * currentBuffer 已经满了，那么在前台线程中就已经把一个前台 currentBuffer 放到
+             * buffers 中了。此时，还是需要把 currentBuffer 放到 buffers 中（注意，前后放置是不同
+             * 的 buffer，因为在前台线程中，currentBuffer 已经被换成 nextBuffer 指向的buffer了）
+             * */
             buffers_.push_back(currentBuffer_);
             currentBuffer_.reset();
 
@@ -90,6 +104,7 @@ void AsyncLogging::threadFunc() {
             buffersToWrite.erase(buffersToWrite.begin()+2, buffersToWrite.end());
         }
 
+        // 将已经写满的 Buffer 写入到日志文件中，由 LogFile 进行 IO 操作
         for (size_t i = 0; i < buffersToWrite.size(); ++i) {
             // FIXME: use unbuffered stdio FILE ? or use ::writev ?
             output.append(buffersToWrite[i]->data(), buffersToWrite[i]->length());
