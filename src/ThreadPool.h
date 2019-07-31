@@ -45,7 +45,7 @@ private:
     // 任务队列同步的条件变量
     static pthread_cond_t notify;
 
-    // 线程组
+    // 线程数组
     static std::vector<pthread_t> threads;
 
     // 任务队列
@@ -62,12 +62,25 @@ private:
     static int tail;
     static int count;
     static int shutdown;
+
+    // 开启线程
     static int started;
 public:
+
+    // 创建线程
     static int threadpool_create(int _thread_count, int _queue_size);
+
+    // 添加任务
     static int threadpool_add(std::shared_ptr<void> args, std::function<void(std::shared_ptr<void>)> fun);
+
+    // 销毁线程
     static int threadpool_destroy(ShutDownOption shutdown_option = graceful_shutdown);
+    
+
+    // 销毁线程池
     static int threadpool_free();
+
+    // 创建线程池
     static void *threadpool_thread(void *args);
 }; // ThreadPool
 

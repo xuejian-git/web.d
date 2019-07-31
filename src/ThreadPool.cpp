@@ -8,6 +8,7 @@
 
 #include "ThreadPool.h"
 
+// 静态成员初始化
 pthread_mutex_t ThreadPool::lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t ThreadPool::notify = PTHREAD_COND_INITIALIZER;
 std::vector<pthread_t> ThreadPool::threads;

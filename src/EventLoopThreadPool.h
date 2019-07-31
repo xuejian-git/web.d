@@ -4,6 +4,7 @@
  *   Last modified   : 2019-07-28 13:10
  *   Filename        : EventLoopThreadPool.h
  *   Description     : 
+ *   创建管理线程池
  * *******************************************************/
 
 #ifndef INCLUDE_EVENTLOOPTHREADPOOL_H
