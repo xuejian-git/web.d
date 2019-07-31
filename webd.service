@@ -14,7 +14,7 @@ function startServer() {
 	else
         ip=$(awk -F: '/ip/{print $2}' $CONF)
         port=$(awk -F: '/port/{print $2}' $CONF)
-		$TARGET -p $port
+		$TARGET -p $port -l $log
         echo "`date +%Y-%m-%d,%H:%m:%s`:webd's server start success ···"
 	fi
 }
