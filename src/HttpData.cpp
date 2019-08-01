@@ -328,7 +328,7 @@ void HttpData::handleConn() {
     }
 }
 
-
+// 解析 URI
 URIState HttpData::parseURI() {
     std::string &str = inBuffer_;
     std::string cop = str;
@@ -404,6 +404,7 @@ URIState HttpData::parseURI() {
     return PARSE_URI_SUCCESS;
 }
 
+// 解析 Header
 HeaderState HttpData::parseHeaders() {
     std::string &str = inBuffer_;
     int key_start = -1, key_end = -1, value_start = -1, value_end = -1;
@@ -505,6 +506,7 @@ HeaderState HttpData::parseHeaders() {
     return PARSE_HEADER_AGAIN;
 }
 
+// 处理请求
 AnalysisState HttpData::analysisRequest() {
     if (method_ == METHOD_POST) {
         // ------------------------------------------------------
@@ -544,10 +546,11 @@ AnalysisState HttpData::analysisRequest() {
         
 
         // echo test
-        if (fileName_ == "hello") {
+        if (fileName_ == "hello.html") {
             outBuffer_ = "HTTP/1.1 200 OK\r\nContent-type: text/plain\r\n\r\nHello World";
             return ANALYSIS_SUCCESS;
         }
+        /*
         if (fileName_ == "favicon.ico") {
             header += "Content-Type: image/png\r\n";
             header += "Content-Length: " + std::to_string(sizeof favicon) + "\r\n";
@@ -558,6 +561,7 @@ AnalysisState HttpData::analysisRequest() {
             outBuffer_ += std::string(favicon, favicon + sizeof favicon);;
             return ANALYSIS_SUCCESS;
         }
+        */
 
         struct stat sbuf;
         if (stat(fileName_.c_str(), &sbuf) < 0) {
