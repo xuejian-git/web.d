@@ -17,8 +17,6 @@
 #include "Util.h"
 #include "EventLoop.h"
 
-// using namespace std;
-
 pthread_once_t MimeType::once_control = PTHREAD_ONCE_INIT;
 std::unordered_map<std::string, std::string> MimeType::mime;
 
@@ -366,7 +364,7 @@ URIState HttpData::parseURI() {
     // filename
     pos = request_line.find("/", pos);
     if (pos < 0) {
-        fileName_ = "index.html";
+        fileName_ = "www/index.html";
         HTTPVersion_ = HTTP_11;
         return PARSE_URI_SUCCESS;
     } else {
@@ -381,7 +379,7 @@ URIState HttpData::parseURI() {
                     fileName_ = fileName_.substr(0, __pos);
                 }
             } else
-                fileName_ = "index.html";
+                fileName_ = "www/index.html";
         }
         pos = _pos;
     }
