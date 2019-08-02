@@ -21,6 +21,9 @@ clean :
 	find . -name '*.o' | xargs rm -f
 	find . -name $(TARGET) | xargs rm -f
 
+common :
+	find . -name '*.o' | xargs rm -f
+
 debug :
 	@echo mkdir Debug
 	[ -e $(PROJECT)/debug ] || mkdir -p $(PROJECT)/debug

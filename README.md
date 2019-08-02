@@ -60,3 +60,12 @@
 - 比较本项目与其他 Web 服务器的并发模型特点，如：nginx
 - 使用 shell 脚本编写了 webd 服务的启动、关闭及重启(控制服务行为)
 - 该服务以 dameon 进程运行
+
+## 使用指南
+
+```bash
+git clone https://github.com/Apriluestc/web.d.git
+cd web.d
+make
+make common
+make debug```
