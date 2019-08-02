@@ -546,7 +546,7 @@ AnalysisState HttpData::analysisRequest() {
         
 
         // echo test
-        if (fileName_ == "hello.html") {
+        if (fileName_ == "hello") {
             outBuffer_ = "HTTP/1.1 200 OK\r\nContent-type: text/plain\r\n\r\nHello World";
             return ANALYSIS_SUCCESS;
         }
