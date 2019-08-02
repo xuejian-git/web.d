@@ -40,4 +40,4 @@
 
 ## 代码统计
 
-![](https://github.com/Apriluestc/web.d/blob/master/.github/num.png)
+![Add image](https://github.com/Apriluestc/web.d/blob/master/image/num.png)
