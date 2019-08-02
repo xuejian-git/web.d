@@ -30,10 +30,14 @@
 - 使用 shell 脚本编写了 webd 服务的启动、关闭及重启(控制服务行为)
 - 该服务以 dameon 进程运行
 
-## [并发模型](https://github.com/Apriluestc/web.d/blob/master/%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B.md)
+## 并发模型
 
 ## 项目来源
 
 - [陈硕](https://github.com/chenshuo/muduo/tree/master/muduo/net)
 - 林亚
 - 陈帅豪
+
+## 代码统计
+
+![](https://github.com/Apriluestc/web.d/blob/master/.github/num.png)
