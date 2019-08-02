@@ -68,4 +68,5 @@ git clone https://github.com/Apriluestc/web.d.git
 cd web.d
 make
 make common
-make debug```
+make debug
+```
