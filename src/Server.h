@@ -22,8 +22,14 @@ public:
     EventLoop* getLoop() const {
         return loop_;
     }
+
+    // 服务器启动函数
     void start();
+
+    // 处理新连接
     void handNewConn();
+
+    // 处理当前连接
     void handThisConn() {
         loop_->updatePoller(acceptChannel_);
     }

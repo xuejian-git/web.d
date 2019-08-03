@@ -38,6 +38,7 @@ enum URIState {
     PARSE_URI_SUCCESS,
 };
 
+// 解析 Header 相关成员
 enum HeaderState {
     PARSE_HEADER_SUCCESS = 1,
     PARSE_HEADER_AGAIN,
@@ -130,12 +131,19 @@ private:
     int nowReadPos_;
     ProcessState state_;
     ParseState hState_;
+
+    // 长连接标志
     bool keepAlive_;
     std::map<std::string, std::string> headers_;
     std::weak_ptr<TimerNode> timer_;
 
+    // 读处理
     void handleRead();
+
+    // 写处理
     void handleWrite();
+
+    // 处理连接(包括 current connection and next connection)
     void handleConn();
     void handleError(int fd, int err_num, std::string short_msg);
     URIState parseURI();

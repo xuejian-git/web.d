@@ -14,8 +14,9 @@
 #include <memory>
 #include <queue>
 #include <deque>
+// #include <mutex>
 
-#include "base/MutexLock.h"
+// #include "base/MutexLock.h"
 
 class HttpData;
 
@@ -27,9 +28,15 @@ public:
     void update(int timeout);
     bool isValid();
     void clearReq();
-    void setDeleted() { deleted_ = true; }
-    bool isDeleted() const { return deleted_; }
-    size_t getExpTime() const { return expiredTime_; } 
+    void setDeleted() {
+        deleted_ = true;
+    }
+    bool isDeleted() const {
+        return deleted_;
+    }
+    size_t getExpTime() const {
+        return expiredTime_;
+    }
 
 private:
     bool deleted_;
