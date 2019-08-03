@@ -22,6 +22,12 @@ class Epoll {
 public:
     Epoll();
     ~Epoll();
+
+    /*
+     * epoll_create
+     * epoll_ctl
+     * epoll_wait
+     * */
     void epoll_add(SP_Channel request, int timeout);
     void epoll_mod(SP_Channel request, int timeout);
     void epoll_del(SP_Channel request);
