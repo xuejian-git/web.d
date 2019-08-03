@@ -17,6 +17,7 @@ LogFile::LogFile(const std::string& basename, int flushEveryN)
     :basename_(basename),
     flushEveryN_(flushEveryN),
     count_(0),
+    // mutex_(new std::mutex)
     mutex_(new MutexLock)
 {
     //assert(basename.find('/') >= 0);

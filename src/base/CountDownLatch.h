@@ -8,6 +8,7 @@
 #ifndef INCLUDE_COUNTDOWNLATCH_H
 #define INCLUDE_COUNTDOWNLATCH_H
 
+// #include <mutex>
 #include <boost/noncopyable.hpp>
 
 #include "Condition.h"
@@ -22,6 +23,7 @@ public:
     void countDown();
 
 private:
+    // mutable std::mutex mutex_;
     mutable MutexLock mutex_;
     Condition condition_;
     int count_;

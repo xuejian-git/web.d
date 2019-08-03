@@ -12,8 +12,9 @@
 #define INCLUDE_LOGFILE_H
 
 #include <memory>
-#include <mutex>
+// #include <mutex>
 #include <string>
+#include <mutex>
 #include <boost/noncopyable.hpp>
 
 #include "FileUtil.h"
