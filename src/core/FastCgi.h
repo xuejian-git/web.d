@@ -149,7 +149,7 @@ public:
     FastCgiHeader MakeHeader(int type, int request, int contentlength, int paddinglength);
     
     // 构造开始请求记录协议
-    FastCgiEndRequestBody MakeBeginRequestBody(int role, int KeepConn);
+    FastCgiBeginRequestBody MakeBeginRequestBody(int role, int KeepConn);
     
     // 发送开始请求记录
     int SendBeginRequestRecord(CallFunc cf, int fd, int requestId);
