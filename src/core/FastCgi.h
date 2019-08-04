@@ -12,33 +12,52 @@
 #include <functional>
 
 #define FASTCGI_MAX_LENGTH 65535
+// #define FASTCGI_MAX_LENGTH 0xffff
 #define DEFAULT_FASTCGI_ADDR "127.0.0.1"
 #define DEFAULT_FASTCGI_PORT 9000
 #define FASTCGI_VERSION 1
+
+// FASTCGI 协议包头长度
 #define FASTCGI_HEADER_LENGTH 8
 
 #define FASTCGI_KEEP_CONN  1
 
 // FASTCGI 协议组件的类型值
 enum HandleState {
+    
+    // 请求开始记录类型
     FASTCGI_BEGIN_REQUEST = 1,
     FASTCGI_ABORT_REQUEST,
+    
+    // 响应结束记录类型
     FASTCGI_END_REQUEST,
+    
+    // 传输明值键值对
     FASTCGI_PARAMS,
+    
+    // 传输输入数据，例如 POST 数据
     FASTCGI_STDIN,
+    
+    // 数据响应输出
     FASTCGI_STDOUT,
+    
+    // 错误输出
     FASTCGI_STDERR,
     FASTCGI_DATA
 };
 
 // 协议级别状态码
 enum VersionState {
+    
     // 正常结束
     FASTCGI_REQUEST_COMPLETE = 1,
+    
     // 拒绝新请求，无法并发处理
     FASTCGI_CANT_MPX_CONN,
+    
     // 拒绝新请求，资源负载
     FASTCGI_OVERLOADED,
+    
     // 不能识别的角色
     FASTCGI_UNKNOWN_ROLE
 };
@@ -52,27 +71,35 @@ enum RoleState {
 
 // FASTCGI 协议报头
 struct FastCgiHeader {
+    
     // 协议版本
     unsigned char version;
+    
     // 协议记录类型
     unsigned char type;
+    
     // 请求 ID
     unsigned char requestIdB1;
     unsigned char requestIdB0;
+    
     // 内容长度
     unsigned char contentLengthB1;
     unsigned char contentLengthB0;
+    
     // 填充字节长度
     unsigned char paddingLength;
+    
     // 保留字节
     unsigned char reserved;
 };
 
 // FASTCGI 请求开始记录的协议结构
 struct FastCgiBeginRequestBody {
+    
     // Web 服务器期望 php 所扮演的角色
     unsigned char roleB1;
     unsigned char roleB0;
+    
     // 控制连接响应后是否立即关闭
     unsigned char flag;
     unsigned char reserved[5];
@@ -109,6 +136,7 @@ struct FastCgiParamRecord {
 
 class FastCgiData {
 public:
+    
     // 读取发送协议记录函数指针回调
     typedef std::function<size_t(int, void*, size_t)> CallFunc;
     

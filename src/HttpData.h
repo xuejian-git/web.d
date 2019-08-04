@@ -40,8 +40,11 @@ enum URIState {
 
 // 解析 Header 相关成员
 enum HeaderState {
+    // 请求成功
     PARSE_HEADER_SUCCESS = 1,
+    // 重新请求
     PARSE_HEADER_AGAIN,
+    // 错误
     PARSE_HEADER_ERROR
 };
 
