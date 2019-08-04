@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "Timer.h"
+#include "core/FastCgi.h"
 
 class EventLoop;
 class TimerNode;
@@ -92,6 +93,7 @@ private:
     MimeType(const MimeType &m);
 
 public:
+    // 获取请求文件的 MIME 类型
     static std::string getMime(const std::string &suffix);
 
 private:
@@ -152,6 +154,18 @@ private:
     URIState parseURI();
     HeaderState parseHeaders();
     AnalysisState analysisRequest();
+
+    // 动态文件请求处理
+    void handleDynamic();
+
+    // 将 php 相应结果发送给浏览器客户端回调
+    int sendPhpToCli(int fd, int outlen, char* out, int errlen, char* err, FastCgiEndRequestBody* endr);
+
+    // 发送 HTTP 请求给 FastCgi 服务器
+    int sendFastCgi();
+
+    // 接收 FastCgi 返回的数据
+    int recvFastCgi(int fd, int fcsock);
 }; // HttpData
 
 #endif // INCLUDE_HTTPDATA_H

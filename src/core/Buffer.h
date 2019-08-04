@@ -4,10 +4,13 @@
  *   Last modified   : 2019-07-28 20:20
  *   Filename        : Buffer.h
  *   Description     : 
+ *   TCP 接收发送环形缓冲区
  * *******************************************************/
 
 #ifndef INCLUDE_BUFFER_H
 #define INCLUDE_BUFFER_H
+
+#define LARGE_PAGE_NODE 12
 
 struct BufferNode {
     char* msg;
@@ -41,6 +44,7 @@ public:
     char* BufferReadSpec(SocketBuffer* sp, int size, int* realSz);
     char* BufferReadAll(SocketBuffer* sp, int* retNum);
     int BufferGetSize(SocketBuffer* sp);
+    BufferNode* NewBufferNode(int size);
 }; // Buffer
 
 #endif // INCLUDE_BUFFER_H
