@@ -44,16 +44,6 @@
 - 为减少内存泄漏的可能，使用智能指针等 RAII 机制
 - 支持优雅关闭连接
 
-## 项目来源
-
-- [陈硕](https://github.com/chenshuo/muduo/tree/master/muduo/net)
-- 林亚
-- 陈帅豪
-
-## 代码统计
-
-![Add image](https://github.com/Apriluestc/web.d/blob/master/image/num.png)
-
 ## 职责 (我实现了)
 
 - 实现了基于时间轮的定时器，定时关闭超时请求以及剔除不活跃连接
@@ -74,3 +64,9 @@ make
 make common
 make debug
 ```
+
+## 项目来源
+
+- [陈硕](https://github.com/chenshuo/muduo/tree/master/muduo/net)
+- 林亚
+- 陈帅豪
