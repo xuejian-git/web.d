@@ -12,8 +12,8 @@
 
 ## 项目目的
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 该项目用作秋招复习自己所学知识，其涵盖了：
+
 - 多线程多进程编程、socket 编程、泛型编程
 - TCP/IP、HTTP 协议
 - IO 相关(包括标准 IO、IO 设计模式、五大 IO 模型)
