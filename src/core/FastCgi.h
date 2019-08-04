@@ -142,8 +142,8 @@ public:
     
     // 发送 php 结果给浏览器客户端函数回调
     typedef std::function<size_t(int, int, char*, int, char*, FastCgiEndRequestBody*)> CallCli;
-    FastCgiData();
-    ~FastCgiData();
+    FastCgiData() {}
+    ~FastCgiData() {}
 
     // 构造协议 Header
     FastCgiHeader MakeHeader(int type, int request, int contentlength, int paddinglength);

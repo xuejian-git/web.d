@@ -20,6 +20,9 @@
 
 #include "Timer.h"
 #include "core/FastCgi.h"
+#include "Util.h"
+
+#define MAXLINE 8192
 
 class EventLoop;
 class TimerNode;
@@ -101,7 +104,7 @@ private:
 }; // MimeType
 
 
-class HttpData: public std::enable_shared_from_this<HttpData> {
+class HttpData : public std::enable_shared_from_this<HttpData> {
 public:
     HttpData(EventLoop *loop, int connfd);
     ~HttpData() { close(fd_); }
@@ -155,17 +158,19 @@ private:
     HeaderState parseHeaders();
     AnalysisState analysisRequest();
 
+public:
     // 动态文件请求处理
-    void handleDynamic();
+    static void handleDynamic();
 
     // 将 php 相应结果发送给浏览器客户端回调
-    int sendPhpToCli(int fd, int outlen, char* out, int errlen, char* err, FastCgiEndRequestBody* endr);
+    static int sendPhpToCli(int fd, int outlen, char* out, int errlen, char* err, FastCgiEndRequestBody* endr);
 
     // 发送 HTTP 请求给 FastCgi 服务器
-    int sendFastCgi();
+    // static int sendFastCgi(rio_t* rp, hhr_t* hp, int sock);
 
     // 接收 FastCgi 返回的数据
-    int recvFastCgi(int fd, int fcsock);
+    static int recvFastCgi(int fd, int fcsock);
+
 }; // HttpData
 
 #endif // INCLUDE_HTTPDATA_H

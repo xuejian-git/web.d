@@ -19,7 +19,7 @@
 
 const int MAX_BUFF = 4096;
 
-ssize_t readn(int fd, void *buff, size_t n) {
+ssize_t readn(int fd, void* buff, size_t n) {
     size_t nleft = n;
     ssize_t nread = 0;
     ssize_t readSum = 0;
@@ -42,7 +42,7 @@ ssize_t readn(int fd, void *buff, size_t n) {
     return readSum;
 }
 
-ssize_t readn(int fd, std::string &inBuffer, bool &zero) {
+ssize_t readn(int fd, std::string& inBuffer, bool& zero) {
     ssize_t nread = 0;
     ssize_t readSum = 0;
     while (true) {
@@ -71,7 +71,7 @@ ssize_t readn(int fd, std::string &inBuffer, bool &zero) {
     return readSum;
 }
 
-ssize_t readn(int fd, std::string &inBuffer) {
+ssize_t readn(int fd, std::string& inBuffer) {
     ssize_t nread = 0;
     ssize_t readSum = 0;
     while (true) {
@@ -99,7 +99,7 @@ ssize_t readn(int fd, std::string &inBuffer) {
     return readSum;
 }
 
-ssize_t writen(int fd, void *buff, size_t n) {
+ssize_t writen(int fd, void* buff, size_t n) {
     size_t nleft = n;
     ssize_t nwritten = 0;
     ssize_t writeSum = 0;
@@ -223,3 +223,128 @@ int socket_bind_listen(int port) {
     }
     return listen_fd;
 }
+
+ssize_t rio_readn(int fd, void* usrbuf, size_t n) {
+
+    // 剩下的未读字节数
+    size_t nleft = n;
+    ssize_t nread;
+    char* bufp = static_cast<char*>(usrbuf);
+    while (nleft > 0) {
+        if ((nread = read(fd, bufp, nleft)) < 0) {
+            // 被信号处理函数中断返回
+            if (errno == EINTR) {
+                nread = 0;
+            } else {
+                // read 出错
+                return -1;
+            }
+        } else if (nread == 0) {
+            // EOF
+            break;
+        }
+        nleft -= nread;
+        bufp += nread;
+    }
+    // 返回读取的字节数
+    return (n - nleft);
+}
+
+ssize_t rio_writen(int fd, void* usrbuf, size_t n) {
+
+    // 剩下的未写入字节数
+    size_t nleft = n;
+    ssize_t nwritten;
+    char *bufp = (char *)usrbuf;
+
+    while (nleft > 0) {
+        if ((nwritten = write(fd, bufp, nleft)) <= 0) {
+            if (errno == EINTR) {
+                // 被信号处理函数中断返回
+                nwritten = 0;
+            } else {
+                return -1;
+            }
+        }
+        nleft -= nwritten;
+        bufp += nwritten;
+    }
+    return n;
+}
+
+void rio_readinitb(rio_t* rp, int fd) {
+    rp->rio_fd = fd;
+    rp->rio_cnt = 0;
+    rp->rio_bufptr = rp->rio_buf;                    
+}
+
+ssize_t rio_read(rio_t* rp, char* usrbuf, size_t n) {
+    int cnt;
+
+    // 内部缓冲区为空，从 0缓冲区对应的描述符中继续读取字节填满内部缓冲区
+    while (rp->rio_cnt <= 0) { 
+        rp->rio_cnt = read(rp->rio_fd, rp->rio_buf, sizeof(rp->rio_buf));
+        if (rp->rio_cnt < 0) {
+            if (errno != EINTR) {
+                return -1;
+            }
+        } else if (rp->rio_cnt == 0) {
+            return 0;
+        } else { 
+            rp->rio_bufptr = rp->rio_buf;
+        }
+    }
+    // 比较调用所需的字节数n与内部缓冲区可读字节数 rp->rio_cnt
+    // 取其中最小值
+    cnt = n;
+    if (rp->rio_cnt < static_cast<int>(n)) {
+        cnt = rp->rio_cnt;
+    }
+    memcpy(usrbuf, rp->rio_bufptr, cnt);
+    rp->rio_bufptr += cnt;
+    rp->rio_cnt -= cnt;
+    return cnt;
+}
+
+ssize_t rio_readlineb(rio_t* rp, void* usrbuf, size_t maxlen) {
+    int n, rc;
+    char c, *bufp = static_cast<char*>(usrbuf);
+    for (n = 1; n < static_cast<int>(maxlen); n++) {
+        if ((rc = rio_read(rp, &c, 1)) == 1) {
+            *bufp++ = c;
+            if (c == '\n') {
+                break;
+            }
+        } else if (rc == 0) {
+            if (n == 1) {
+                return 0;
+            } else {
+                break;
+            }
+        } else {
+            return -1;
+        }
+    }
+    *bufp = 0;
+    return n;
+}
+
+ssize_t rio_readnb(rio_t* rp, void* usrbuf, size_t n) {
+    size_t nleft = n;
+    ssize_t nread;
+    char *bufp = static_cast<char*>(usrbuf);
+    while (nleft > 0) {
+        if ((nread = rio_read(rp, bufp, nleft)) < 0) {
+            if(errno == EINTR) {
+                nread = 0;
+            } else {
+                return -1;
+            }
+        } else if(nread == 0) {
+            break; 
+        } 
+        nleft -= nread;
+        bufp += nread;
+    }
+    return (n - nleft);
+}       

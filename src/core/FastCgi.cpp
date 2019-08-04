@@ -54,8 +54,8 @@ int FastCgiData::SendBeginRequestRecord(CallFunc wr, int fd, int requestId) {
 int FastCgiData::SendParamRecord(CallFunc wr, int fd, int requestId, char *name, int nlen, char *value, int vlen) {
     unsigned char *buf, *old;
     int ret, pl,  cl = nlen + vlen;
-    cl = (nlen < 128) ? ++cl : cl + 4; 
-    cl = (vlen < 128) ? ++cl : cl + 4; 
+    cl == (nlen < 128) ? (++cl) : (cl + 4);
+    cl == (vlen < 128) ? (++cl) : (cl + 4);
 
     // 计算填充数据长度
     pl = (cl % 8) == 0 ? 0 : 8 - (cl % 8);
