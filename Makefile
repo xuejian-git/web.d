@@ -1,6 +1,6 @@
 PROJECT := $(shell pwd)
 MAIN 	:= $(PROJECT)/src/Main.cpp
-SRC  	:= $(wildcard $(PROJECT)/src/*.cpp $(PROJECT)/src/base/*.cpp)
+SRC  	:= $(wildcard $(PROJECT)/src/*.cpp $(PROJECT)/src/base/*.cpp $(PROJECT)/src/core/*.cpp)
 override SRC := $(filter-out $(MAIN), $(SRC))
 OBJECT  := $(patsubst %.cpp, %.o, $(SRC))
 BIN 	:= $(PROJECT)/bin

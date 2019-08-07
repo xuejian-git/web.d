@@ -12,9 +12,10 @@ function startServer() {
 	if [ $? -eq 0 ];then
         echo  "`date +%Y-%m-%d,%H:%m:%s`:webd's server is already runing ···"
 	else
-        ip=$(awk -F: '/ip/{print $2}' $CONF)
         port=$(awk -F: '/port/{print $2}' $CONF)
-		$TARGET -p $port -l $log
+        thread=$(awk -F: '/thread/{print $2}' $CONF)
+        log=$(awk -F: '/log/{print $2}' $CONF)
+		$TARGET -p $port -t $thread
         echo "`date +%Y-%m-%d,%H:%m:%s`:webd's server start success ···"
 	fi
 }
