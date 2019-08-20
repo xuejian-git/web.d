@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/badge/build-pass-brightgreen)](https://github.com/Apriluestc/web.d/edit/master/README.md)
 
-**测试页：**[Apriluestc's.rbp](http://39.107.70.253:20000/)
+**测试页：**[Apriluestc's.pub](http://39.107.70.253:20000/)
 
 ## 项目介绍
 
