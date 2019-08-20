@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <iostream>
+#include <string.h>
 
 #include "HttpData.h"
 #include "time.h"
@@ -436,6 +437,7 @@ HeaderState HttpData::parseHeaders() {
 
 // 处理请求
 AnalysisState HttpData::analysisRequest() {
+    int cgi = 0;
     if (method_ == METHOD_POST) {
         // ------------------------------------------------------
         // My CV stitching handler which requires OpenCV library
@@ -525,6 +527,19 @@ AnalysisState HttpData::analysisRequest() {
         outBuffer_ += std::string(src_addr, src_addr + sbuf.st_size);;
         munmap(mmapRet, sbuf.st_size);
         return ANALYSIS_SUCCESS;
+    } else {
+        struct stat sbuf;
+        if ((sbuf.st_mode & S_IFMT) == S_IFDIR) {
+
+        }
+        if ((sbuf.st_mode & S_IXUSR) || (sbuf.st_mode & S_IXGRP) || (sbuf.st_mode & S_IXOTH)) {
+            cgi = 1;
+        }
+        if (!cgi) {
+
+        } else {
+
+        }
     }
     return ANALYSIS_ERROR;
 }
