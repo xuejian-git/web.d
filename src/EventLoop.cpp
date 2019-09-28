@@ -20,6 +20,7 @@ __thread EventLoop* t_loopInThisThread = 0;
 
 
 // 跨线程唤醒 fd
+// eventfd 系统调用，用于实现跨线程异步唤醒
 int createEventfd() {
     int evtfd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
     if (evtfd < 0) {
@@ -45,12 +46,20 @@ EventLoop::EventLoop()
         t_loopInThisThread = this;
     }
     //pwakeupChannel_->setEvents(EPOLLIN | EPOLLET | EPOLLONESHOT);
+    //设置事件
     pwakeupChannel_->setEvents(EPOLLIN | EPOLLET);
+    
+    // 设置读事件回调
     pwakeupChannel_->setReadHandler(std::bind(&EventLoop::handleRead, this));
+    
+    // 设置新事件回调
     pwakeupChannel_->setConnHandler(std::bind(&EventLoop::handleConn, this));
+    
+    // 添加到 epoll 中
     poller_->epoll_add(pwakeupChannel_, 0);
 }
 
+// 处理当前连接
 void EventLoop::handleConn() {
     //poller_->epoll_mod(wakeupFd_, pwakeupChannel_, (EPOLLIN | EPOLLET | EPOLLONESHOT), 0);
     updatePoller(pwakeupChannel_, 0);
@@ -71,6 +80,7 @@ void EventLoop::wakeup() {
     }
 }
 
+// 处理可读事件
 void EventLoop::handleRead() {
     uint64_t one = 1;
     ssize_t n = readn(wakeupFd_, &one, sizeof one);
@@ -98,6 +108,7 @@ void EventLoop::queueInLoop(Functor&& cb) {
         wakeup();
 }
 
+// 线程执行该函数，主循环，进行事件的分发处理
 void EventLoop::loop() {
     assert(!looping_);
     assert(isInLoopThread());

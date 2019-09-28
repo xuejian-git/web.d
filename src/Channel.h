@@ -4,6 +4,13 @@
  *   Last modified   : 2019-07-28 13:06
  *   Filename        : Channel.h
  *   Description     : Channel 类，文件描述符和事件的封装
+ *   通道类，可以将其看成一个管道
+ *
+ *   负责事件分发的一个类，每一个 Channel 自始至终只属于一个 EventLoop
+ *   但是 EventLoop 可以拥有很多 Channel
+ *   每一个 Channel 只负责一个文件描述符上的事件分发，进行判断事件类型后，
+ *   调用对应的回调函数，但是他不拥有这个文件描述符，在 Channnel 实例中析构时不会
+ *   close 这个文件描述符
  * *******************************************************/
 
 #ifndef INCLUDE_CHANNEL_H
